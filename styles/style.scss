@@ -1,0 +1,202 @@
+*,
+:root {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    --trans: all 400ms;
+
+    --rainbow: linear-gradient(0deg,
+            #676767,
+            #ebe9e9,
+            #3f3b3f,
+            #ffffff);
+
+    --rainbow1000: linear-gradient(90deg,
+            #676767,
+            #ebe9e9,
+            #3f3b3f,
+            #ffffff);
+
+    --border: linear-gradient(90deg,
+            #676767,
+            #ebe9e9,
+            #3f3b3f,
+            #e1e1e1);
+}
+
+html {
+    background: #000;
+}
+
+canvas {
+    width: 100%;
+    height: 100%;
+
+}
+audio{
+    position: absolute;
+    z-index: 99999999;
+    opacity: 0;
+}
+
+.hicon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: none;
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    flex-direction: column;
+    color: #fff;
+    font-family: sail;
+    text-align: center;
+
+    @media (max-width: 700px) {
+        transition: var(--trans);
+        backdrop-filter: blur(4px);
+    }
+}
+
+.hi {
+
+    font-size: calc(15vw * .2);
+    font-weight: 400;
+    height: fit-content;
+    padding: 0 1rem;
+    background: var(--rainbow);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke: .2px #929191;
+    letter-spacing: 1.7px;
+    transform: scaleY(1.4);
+    filter: brightness(120%);
+
+    margin-bottom: 2rem;
+    @media (max-width: 1000px) {
+        transition: var(--trans);
+        font-size: calc(15vw * .3);
+        background: var(--rainbow1000);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    @media (max-width: 500px) {
+        backdrop-filter: blur(11px);
+        transition: var(--trans);
+        font-size: calc(20vw * .3);
+    }
+
+}
+
+.thisKeyword {
+    font-family: cinzel;
+    display: inline;
+    background: #000;
+    filter: brightness(150%);
+    -webkit-text-stroke: .2px #ffffff;
+}
+
+.author {
+    user-select: none;
+    font-family: cinzel;
+    font-size: calc(9vw * .2);
+    background: var(--rainbow);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke: .2px #bdbdbd;
+    filter: brightness(120%);
+
+    @media (max-width: 1000px) {
+        transition: var(--trans);
+        font-size: calc(11vw * .3);
+    }
+}
+
+::selection {
+    -webkit-text-stroke: 2px #000000;
+    background: cyan;
+}
+
+.btn {
+    margin-top: 2rem;
+    user-select: none;
+
+    button {
+        font-family: cinzel decorative;
+        font-size: calc(10vw * .2);
+        background: var(--rainbow);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        cursor: pointer;
+        -webkit-text-stroke: .2px #fdfdfd;
+        border-image: var(--border);
+        box-sizing: content-box;
+        border-width: 3px;
+        border-style: solid;
+        border-image-slice: 1;
+        transition: var(--trans);
+
+        &:where(:hover) {
+            transform: scale(1.1);
+            padding: 0 10px;
+        }
+
+        &:active {
+            transform: scale(.9);
+        }
+
+        @media (max-width: 1000px) {
+            transition: var(--trans);
+            font-size: calc(11vw * .4);
+            padding: 0 10px;
+        }
+
+        @media (max-width: 600px) {
+            transition: var(--trans);
+            font-size: calc(15vw * .3);
+        }
+    }
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    font-family: cinzel;
+    font-size: calc(10vw * .2);
+    background: var(--rainbow);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    cursor: pointer;
+    -webkit-text-stroke: .2px #fdfdfd;
+    transition: var(--trans);
+
+    footer {
+        span {
+
+            font-size: 13px;
+            animation: grow 1s ease infinite;
+
+            @keyframes grow {
+                50% {
+                    font-size: 1.7rem;
+                }
+            }
+        }
+    }
+
+    @media (max-width: 1000px) {
+        transition: var(--trans);
+        font-size: calc(11vw * .3);
+    }
+
+    @media (max-width: 600px) {
+        transition: var(--trans);
+        font-size: calc(15vw * .4);
+    }
+}
