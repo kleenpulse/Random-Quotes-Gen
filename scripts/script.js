@@ -103,7 +103,7 @@ function playSound(){
         geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3))
 
         material = new THREE.PointsMaterial({
-            size: 2,
+            size: 1,
             color: 0xffffff,
         })
 
