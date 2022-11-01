@@ -66,79 +66,86 @@ function playSound(){
 
 // ===========GSAP============
 {
-    var scene = new THREE.Scene();
-    document.addEventListener('mousemove', onMouseMove, false);
-    var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    var mouseX;
-    var mouseY;
+    // examples
+    // https://threejs.org/examples/?q=particle#webgl_points_billboards
 
-    var renderer = new THREE.WebGLRenderer();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(renderer.domElement);
+    let camera
+    let scene
+    let renderer
+    let material
+    let mouseX = 0
+    let mouseY = 0
+    let windowHalfX = window.innerWidth / 2
+    let windowHalfY = window.innerHeight / 2
 
-    window.addEventListener("resize", function () {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-    });
+    init()
+    animate()
 
-    var distance = Math.min(1400, window.innerWidth / 6);
-    var geometry = new THREE.Geometry();
+    function init() {
+        camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 5, 2000)
+        camera.position.z = 500
 
-    for (var i = 0; i < 1600; i++) {
+        scene = new THREE.Scene()
+        scene.fog = new THREE.FogExp2(0x0000ff, 0.001)
 
-        var vertex = new THREE.Vector3();
+        const geometry = new THREE.BufferGeometry()
+        const vertices = []
+        const size = 2000
 
-        var theta = Math.acos(THREE.Math.randFloatSpread(2));
-        var phi = THREE.Math.randFloatSpread(7);
+        for (let i = 0; i < 20000; i++) {
+            const x = (Math.random() * size + Math.random() * size) / 2 - size / 2
+            const y = (Math.random() * size + Math.random() * size) / 2 - size / 2
+            const z = (Math.random() * size + Math.random() * size) / 2 - size / 2
 
-        vertex.x = distance * Math.sin(theta) * Math.cos(phi);
-        vertex.y = distance * Math.sin(theta) * Math.sin(phi);
-        vertex.z = distance * Math.cos(theta);
-
-        geometry.vertices.push(vertex);
-    }
-    var particles = new THREE.Points(geometry, new THREE.PointsMaterial({ color: 0xffffff, size: .2 }));
-    particles.boundingSphere = 1;
-
-
-    var renderingParent = new THREE.Group();
-    renderingParent.add(particles);
-
-    var resizeContainer = new THREE.Group();
-    resizeContainer.add(renderingParent);
-    scene.add(resizeContainer);
-
-    camera.position.z = 500;
-
-    var animate = function () {
-        requestAnimationFrame(animate);
-        renderer.render(scene, camera);
-    };
-    var myTween;
-    function onMouseMove(event) {
-        if (myTween)
-            myTween.kill();
-
-        mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-        mouseY = - (event.clientY / window.innerHeight) * 2 + 1;
-        myTween = gsap.to(particles.rotation, { duration: 0.1, x: mouseY * -1, y: mouseX });
-        //particles.rotation.x = mouseY*-1;
-        //particles.rotation.y = mouseX;
-    }
-    animate();
-
-    // Scaling animation
-    var animProps = { scale: 1.7, xRot: 0, yRot: 0 };
-    gsap.to(animProps, {
-        duration: 15, scale: 1.9, repeat: -1, yoyo: true, ease: "sine", onUpdate: function () {
-            renderingParent.scale.set(animProps.scale, animProps.scale, animProps.scale);
+            vertices.push(x, y, z)
         }
-    });
 
-    gsap.to(animProps, {
-        duration: 200, xRot: Math.PI * 2, yRot: Math.PI * 4, repeat: -1, yoyo: true, ease: "none", onUpdate: function () {
-            renderingParent.rotation.set(animProps.xRot, animProps.yRot, 0);
-        }
-    });
+        geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3))
+
+        material = new THREE.PointsMaterial({
+            size: 2,
+            color: 0xffffff,
+        })
+
+        const particles = new THREE.Points(geometry, material)
+        scene.add(particles)
+
+        renderer = new THREE.WebGLRenderer()
+        renderer.setPixelRatio(window.devicePixelRatio)
+        renderer.setSize(window.innerWidth, window.innerHeight)
+        document.body.appendChild(renderer.domElement)
+
+        document.body.style.touchAction = 'none'
+        document.body.addEventListener('pointermove', onPointerMove)
+        window.addEventListener('resize', onWindowResize)
+    }
+
+    function onWindowResize() {
+        windowHalfX = window.innerWidth / 2
+        windowHalfY = window.innerHeight / 2
+
+        camera.aspect = window.innerWidth / window.innerHeight
+        camera.updateProjectionMatrix()
+        renderer.setSize(window.innerWidth, window.innerHeight)
+    }
+
+    function onPointerMove(event) {
+        mouseX = event.clientX - windowHalfX
+        mouseY = event.clientY - windowHalfY
+    }
+
+    function animate() {
+        requestAnimationFrame(animate)
+        render()
+    }
+
+    function render() {
+        camera.position.x += (mouseX * 2 - camera.position.x) * 0.02
+        camera.position.y += (-mouseY * 2 - camera.position.y) * 0.02
+        camera.lookAt(scene.position)
+        renderer.render(scene, camera)
+        scene.rotation.x += 0.001
+        scene.rotation.y += 0.002
+    }
+
 }
