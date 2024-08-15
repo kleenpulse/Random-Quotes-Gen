@@ -4,21 +4,9 @@
   padding: 0;
   overflow: hidden;
   --trans: all 400ms;
-  --rainbow: linear-gradient(0deg,
-          #676767,
-          #ebe9e9,
-          #3f3b3f,
-          #ffffff);
-  --rainbow1000: linear-gradient(90deg,
-          #676767,
-          #ebe9e9,
-          #3f3b3f,
-          #ffffff);
-  --border: linear-gradient(90deg,
-          #676767,
-          #ebe9e9,
-          #3f3b3f,
-          #e1e1e1);
+  --rainbow: linear-gradient(0deg, #676767, #ebe9e9, #3f3b3f, #ffffff);
+  --rainbow1000: linear-gradient(90deg, #676767, #ebe9e9, #3f3b3f, #ffffff);
+  --border: linear-gradient(90deg, #676767, #ebe9e9, #3f3b3f, #e1e1e1);
 }
 
 html {
@@ -175,13 +163,8 @@ audio {
   transition: var(--trans);
 }
 .footer footer span {
-  font-size: 13px;
+  font-size: 1.7rem;
   animation: grow 1s ease infinite;
-}
-@keyframes grow {
-  50% {
-    font-size: 1.7rem;
-  }
 }
 @media (max-width: 1000px) {
   .footer {
